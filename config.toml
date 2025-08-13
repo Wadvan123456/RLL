@@ -1,0 +1,77 @@
+theme = "hugo-theme-learn"
+
+# For search functionality
+[outputs]
+home = [ "HTML", "RSS", "JSON"]
+
+[params]
+  themeVariant = "workshop"
+  editURL = ""
+  description = ""
+  author = "journeyoftheaverageguy@gmail.com"
+  showVisitedLinks = true
+  disableBreadcrumb = false
+  disableNextPrev = false
+
+# Cấu hình ngôn ngữ và menu
+[languages]
+
+  [languages.en]
+  languageName = "English"
+  title = "Create a new AWS account."
+  weight = 1
+
+  [[languages.en.menu.shortcuts]]
+  name = "<i class='fab fa-aws'></i> AWS Study Group - Blog"
+  identifier = "AWS Study Group"
+  url = "https://aws.amazon.com/blogs"
+  weight = 20
+
+  [[languages.en.menu.shortcuts]]
+  name = "<i class='fab fa-facebook'></i> AWS Study Group - FB Group"
+  identifier = "AWS Study Group FB"
+  url = "https://www.facebook.com/groups/awsstudygroupfcj"
+  weight = 20
+
+  [languages.vi]
+  languageName = "Tiếng Việt"
+  title = "Tạo mới tài khoản AWS"
+  weight = 2
+
+  [[languages.vi.menu.shortcuts]]
+  name = "<i class='fab fa-aws'></i> AWS Study Group - Blog"
+  identifier = "AWS Study Group"
+  url = "http://awsstudygroup.com"
+  weight = 20
+
+  [[languages.vi.menu.shortcuts]]
+  name = "<i class='fab fa-facebook'></i> AWS Study Group - Nhóm FB"
+  identifier = "AWS Study Group FB"
+  url = "https://www.facebook.com/groups/awsstudygroupfcj"
+  weight = 20
+
+# Thêm menu chính (nếu bạn chưa khai báo)
+[[menu.main]]
+name = "Home"
+url = "/"
+weight = 1
+
+[[menu.main]]
+name = "Introduction"
+url = "/introduction/"
+weight = 2
+
+[[menu.main]]
+name = "Deployment"
+url = "/deployment/"
+weight = 3
+
+[[menu.main]]
+name = "Services Overview"
+url = "/services-overview/"
+weight = 4
+
+[[menu.main]]
+name = "Cleanup"
+url = "/cleanup-resources/"
+weight = 5

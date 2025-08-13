@@ -1,0 +1,156 @@
+<nav id="sidebar" class="{{ if $.Site.Params.showVisitedLinks }}showVisitedLinks{{ end }}">
+
+  {{ $currentNode := . }}
+  {{ $showvisitedlinks := .Site.Params.showVisitedLinks }}
+
+  <div id="header-wrapper">
+    <div id="header">
+      {{ partial "logo.html" . }}
+    </div>
+    {{ if not .Site.Params.disableSearch }}
+      {{ partial "search.html" . }}
+    {{ end }}
+  </div>
+
+  <div class="highlightable">
+    <ul class="topics">
+
+      {{/* Lặp tất cả sections theo weight hoặc title */}}
+      {{ if eq .Site.Params.ordersectionsby "title" }}
+        {{ range .Site.Home.Sections.ByTitle }}
+          {{ template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks }}
+        {{ end }}
+      {{ else }}
+        {{ range .Site.Home.Sections.ByWeight }}
+          {{ template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks }}
+        {{ end }}
+      {{ end }}
+
+      {{/* Hiển thị các trang (pages) ở thư mục root, không nằm trong section nào */}}
+      {{ $rootPages := where .Site.Home.Pages "Section" "" }}
+      {{ range $rootPages.ByWeight }}
+        {{ if not .Params.hidden }}
+          <li class="dd-item
+            {{ with .File }}
+              {{ $currentFileUniqueID := "" }}
+{{ with $currentNode.File }}
+  {{ $currentFileUniqueID = .UniqueID }}
+{{ end }}
+
+{{ if eq .UniqueID $currentFileUniqueID }}active{{ end }}
+            {{ end }}">
+            <a href="{{ .RelPermalink }}">
+              {{ or .Params.menuTitle .Title }}
+              {{ if $showvisitedlinks }}<i class="fas fa-check read-icon"></i>{{ end }}
+            </a>
+          </li>
+        {{ end }}
+      {{ end }}
+
+    </ul>
+
+    {{ $disableShortcutsTitle := .Site.Params.DisableShortcutsTitle }}
+    {{ with .Site.Menus.shortcuts }}
+      <section id="shortcuts">
+        <h3>{{ if not $disableShortcutsTitle }}{{ T "Shortcuts-Title" }}{{ end }}</h3>
+        <ul>
+          {{ range sort . "Weight" }}
+            <li>
+              {{ .Pre }}<a class="padding" href="{{ .URL | absLangURL }}">{{ safeHTML .Name }}</a>{{ .Post }}
+            </li>
+          {{ end }}
+        </ul>
+      </section>
+    {{ end }}
+
+    {{ if or .Site.IsMultiLingual $showvisitedlinks }}
+      <section id="prefooter">
+        <hr />
+        <ul>
+          {{ if and .Site.IsMultiLingual (not .Site.Params.DisableLanguageSwitchingButton) }}
+            <li>
+              <a class="padding">
+                <i class="fas fa-language fa-fw"></i>
+                <div class="select-style">
+                  <select id="select-language" onchange="location = this.value;">
+                    {{ $siteLanguages := .Site.Languages }}
+                    {{ $pageLang := .Page.Lang }}
+                    {{ range .Page.AllTranslations }}
+                      {{ $translation := . }}
+                      {{ range $siteLanguages }}
+                        {{ if eq $translation.Lang .Lang }}
+                          <option id="{{ $translation.Language }}" value="{{ $translation.Permalink }}" {{ if eq $pageLang .Lang }}selected{{ end }}>{{ .LanguageName }}</option>
+                        {{ end }}
+                      {{ end }}
+                    {{ end }}
+                  </select>
+                  <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    width="255px" height="255px" viewBox="0 0 255 255" style="enable-background:new 0 0 255 255;" xml:space="preserve">
+                    <g>
+                      <g id="arrow-drop-down">
+                        <polygon points="0,63.75 127.5,191.25 255,63.75" />
+                      </g>
+                    </g>
+                  </svg>
+                </div>
+              </a>
+            </li>
+          {{ end }}
+
+          {{ if $showvisitedlinks }}
+            <li><a class="padding" href="#" data-clear-history-toggle=""><i class="fas fa-history fa-fw"></i> {{ T "Clear-History" }}</a></li>
+          {{ end }}
+        </ul>
+      </section>
+    {{ end }}
+
+    <section id="footer">
+      {{ partial "menu-footer.html" . }}
+    </section>
+  </div>
+</nav>
+
+{{/* Template đệ quy hiển thị Section và các pages bên trong */}}
+{{ define "section-tree-nav" }}
+  {{ $sect := .sect }}
+  {{ $currentNode := .currentnode }}
+  {{ $showvisitedlinks := .showvisitedlinks }}
+
+  {{ $currentFileUniqueID := "" }}
+  {{ with $currentNode.File }}
+    {{ $currentFileUniqueID = .UniqueID }}
+  {{ end }}
+
+  {{ if and $sect.IsSection (or (not $sect.Params.hidden) true) }}
+    <li data-nav-id="{{ $sect.RelPermalink }}" title="{{ $sect.Title }}" class="dd-item
+      {{ if $sect.IsAncestor $currentNode }} parent{{ end }}
+      {{ with $sect.File }}{{ if eq .UniqueID $currentFileUniqueID }} active{{ end }}{{ end }}
+      {{ if $sect.Params.alwaysopen }} parent{{ end }}">
+      <a href="{{ $sect.RelPermalink }}">
+        {{ or $sect.Params.menuTitle $sect.Title }}
+        {{ if $showvisitedlinks }}<i class="fas fa-check read-icon"></i>{{ end }}
+      </a>
+
+      {{ $pages := $sect.Pages | union $sect.Sections }}
+
+      {{ if gt (len $pages) 0 }}
+        <ul>
+          {{ range $pages.ByWeight }}
+            {{ if not .Params.hidden }}
+              {{ template "section-tree-nav" dict "sect" . "currentnode" $currentNode "showvisitedlinks" $showvisitedlinks }}
+            {{ end }}
+          {{ end }}
+        </ul>
+      {{ end }}
+
+    </li>
+  {{ else if not $sect.Params.hidden }}
+    <li data-nav-id="{{ $sect.RelPermalink }}" title="{{ $sect.Title }}" class="dd-item
+      {{ with $sect.File }}{{ if eq .UniqueID $currentFileUniqueID }}active{{ end }}{{ end }}">
+      <a href="{{ $sect.RelPermalink }}">
+        {{ or $sect.Params.menuTitle $sect.Title }}
+        {{ if $showvisitedlinks }}<i class="fas fa-check read-icon"></i>{{ end }}
+      </a>
+    </li>
+  {{ end }}
+{{ end }}

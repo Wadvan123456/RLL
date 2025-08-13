@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Deployment Steps on Create a new AWS account.</title>
+    <link>//localhost:1313/2-deloyment/</link>
+    <description>Recent content in Deployment Steps on Create a new AWS account.</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 13 Aug 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="//localhost:1313/2-deloyment/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Set up AWS Lambda Functions</title>
+      <link>//localhost:1313/2-deloyment/4-setting-up-aws-lambda/</link>
+      <pubDate>Wed, 13 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>//localhost:1313/2-deloyment/4-setting-up-aws-lambda/</guid>
+      <description>Setting up AWS Lambda Functions — Hướng dẫn chi tiết AWS Lambda là dịch vụ tính toán serverless cho phép bạn chạy code mà không cần quản lý máy chủ. Lambda rất phù hợp để xử lý các event backend trong nền tảng RL của bạn.&#xA;1. Đăng nhập vào AWS Management Console Truy cập https://console.aws.amazon.com/lambda Đăng nhập tài khoản có quyền tạo Lambda. 2. Điều hướng đến dịch vụ Lambda Trong menu Services, tìm và chọn Lambda.</description>
+    </item>
+    <item>
+      <title>Configure Amazon S3 Buckets</title>
+      <link>//localhost:1313/2-deloyment/5--configure-amazon-s3-buckets/</link>
+      <pubDate>Wed, 13 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>//localhost:1313/2-deloyment/5--configure-amazon-s3-buckets/</guid>
+      <description>Configure Amazon S3 Buckets Amazon Simple Storage Service (S3) is an object storage service that offers industry-leading scalability, data availability, security, and performance. It is widely used to store data for websites, mobile apps, backup and restore, archive, enterprise applications, IoT devices, and big data analytics.&#xA;1. Create an S3 Bucket Sign in to the AWS Management Console. Click Create bucket. Enter a globally unique Bucket name. Choose the Region closest to your users or your AWS resources.</description>
+    </item>
+  </channel>
+</rss>
